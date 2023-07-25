@@ -1,7 +1,7 @@
 # Algorithm
 5959 스터디의 알고리즘 Repository 입니다!
 
-#### Notion Link : https://earthy-haircut-1b7.notion.site/5959-aca8b530606d4efc986c2bf30314a532
+[🔗Notion Link](https://internal-message-100.notion.site/5959-5272b759290147858970ae538719a2c4?pvs=4)
 
 ## :people_hugging: Team
 
