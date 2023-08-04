@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-public class boj_17615 {
+public class BOJ17615 {
     static int n;
     static String[] arr;
     static int min, cnt;

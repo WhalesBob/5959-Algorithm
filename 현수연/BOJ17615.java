@@ -28,6 +28,7 @@ public class Main
         }
         int min_diff = Math.min(diff_cnt1,diff_cnt2);
         int min_same = Math.min(same_cnt1,same_cnt2);
+
         System.out.println(Math.min(min_diff,min_same));	
     }
 }
