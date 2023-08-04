@@ -2,7 +2,6 @@ import java.util.*;
 import java.io.*;
 
 public class BOJ2784 {
-
     static String [] result = new String[3];
     static List<String> wd = new ArrayList<>();
  
