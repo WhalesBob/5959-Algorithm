@@ -1,60 +1,77 @@
+package ssafy;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.Arrays;
 
 public class Main {
-	static long answer;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		int N = Integer.parseInt(st.nextToken());
-		long M = Integer.parseInt(st.nextToken());
+		int n = Integer.parseInt(br.readLine());
+		String str = br.readLine();
 
-		st = new StringTokenizer(br.readLine());
-		long[] trees = new long[N];
-		long max = 0;
-		answer = Integer.MIN_VALUE;
-		for (int i = 0; i < N; i++) {
-			trees[i] = Integer.parseInt(st.nextToken());
-			max = Math.max(max, trees[i]);
+		// 오른쪽으로 90도씩 회전
+		int[][] move = { { 1, 0 }, { 0, -1 }, { -1, 0 }, { 0, 1 } };
+
+		int d = 0; // 밑으로
+
+		int y = 49;
+		int x = 49;
+
+		// 최소한의 범위를 출력하기 위함
+		int miny = y;
+		int minx = x;
+		int maxy = y;
+		int maxx = x;
+
+		// 맵 선언 및 초기화
+		char[][] map = new char[100][100];
+
+		for (int i = 0; i < 100; i++)
+			Arrays.fill(map[i], '#');
+
+		// 방문처리
+		map[y][x] = '.';
+
+		for (int i = 0; i < str.length(); i++) {
+
+			int now = str.charAt(i);
+
+			switch (now) {
+			case 'R':
+				d++;
+				if (d > 3)
+					d = 0;
+				break;
+			case 'L':
+				d--;
+				if (d < 0)
+					d = 3;
+				break;
+			case 'F':
+				int ny = y + move[d][0];
+				int nx = x + move[d][1];
+
+				map[ny][nx] = '.';
+
+				y = ny;
+				x = nx;
+
+				miny = Math.min(miny, y);
+				minx = Math.min(minx, x);
+
+				maxy = Math.max(maxy, y);
+				maxx = Math.max(maxx, x);
+			}
 		}
 
-		// 이분 탐색?
-		binarySearch(trees, 0, max, M);
-		System.out.println(answer);
-
-	}
-
-	private static void binarySearch(long[] trees, long start, long end, long h) {
-			
-		long mid = (start + end) / 2;
-		
-		if(start > end) {
-			return;
+		for (int i = miny; i <= maxy; i++) {
+			for (int j = minx; j <= maxx; j++) {
+				System.out.print(map[i][j]);
+			}
+			System.out.println();
 		}
-			
-		if (getLen(mid, trees) >= h) {
-			answer = Math.max(answer, mid);
-			binarySearch(trees, mid + 1, end, h);
-			
-		}
-		else
-			binarySearch(trees, start, mid - 1, h);
-
-	}
-
-	private static long getLen(long mid, long[] trees) {
-
-		long sum = 0;
-
-		for (int i = 0; i < trees.length; i++) {
-			long current = trees[i];
-			if (current > mid)
-				sum += current - mid;
-		}
-
-		return sum;
 	}
 }
