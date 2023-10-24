@@ -1,0 +1,43 @@
+import java.util.*;
+import java.io.*;
+
+public class BOJ15565 {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+
+        int[] dolls = new int[N];
+        int[] count = new int[2];
+
+        st = new StringTokenizer(br.readLine(), " ");
+        for(int i=0; i<N; i++)
+            dolls[i] = Integer.parseInt(st.nextToken())-1;
+
+        int min = N+1;
+        int start = 0;
+
+        // 최대의 값을 갱신한다
+        for(int i=0; i<N; i++) {
+            // 현재의 인형을 카운트 한다
+            ++count[dolls[i]];
+
+            // 라이언의 개수가 K개이면,
+            if (count[0] == K) {
+                // K-1개 될 때까지 뺀다
+                while(count[0] > K-1)
+                    --count[dolls[start++]];
+
+                // 현재 count[0]+count[1]+1 값의 개수가 최소라면 갱신한다
+                min = min > count[0]+count[1]+1 ? count[0]+count[1]+1 : min;
+            }
+        }
+
+        if(min == N+1)
+            System.out.println(-1);
+        else
+            System.out.println(min);
+    }
+}
