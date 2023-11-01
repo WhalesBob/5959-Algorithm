@@ -1,77 +1,42 @@
-package ssafy;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
 
+// 15565번: 귀여운 라이언
 public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-		int n = Integer.parseInt(br.readLine());
-		String str = br.readLine();
-
-		// 오른쪽으로 90도씩 회전
-		int[][] move = { { 1, 0 }, { 0, -1 }, { -1, 0 }, { 0, 1 } };
-
-		int d = 0; // 밑으로
-
-		int y = 49;
-		int x = 49;
-
-		// 최소한의 범위를 출력하기 위함
-		int miny = y;
-		int minx = x;
-		int maxy = y;
-		int maxx = x;
-
-		// 맵 선언 및 초기화
-		char[][] map = new char[100][100];
-
-		for (int i = 0; i < 100; i++)
-			Arrays.fill(map[i], '#');
-
-		// 방문처리
-		map[y][x] = '.';
-
-		for (int i = 0; i < str.length(); i++) {
-
-			int now = str.charAt(i);
-
-			switch (now) {
-			case 'R':
-				d++;
-				if (d > 3)
-					d = 0;
-				break;
-			case 'L':
-				d--;
-				if (d < 0)
-					d = 3;
-				break;
-			case 'F':
-				int ny = y + move[d][0];
-				int nx = x + move[d][1];
-
-				map[ny][nx] = '.';
-
-				y = ny;
-				x = nx;
-
-				miny = Math.min(miny, y);
-				minx = Math.min(minx, x);
-
-				maxy = Math.max(maxy, y);
-				maxx = Math.max(maxx, x);
-			}
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		int n = Integer.parseInt(st.nextToken());
+		int k = Integer.parseInt(st.nextToken());
+		
+		// 입력
+		int[] cute = new int[n];
+		List<Integer> lion = new ArrayList<>(); // 라이언의 위치를 저장하는 리스트
+		st = new StringTokenizer(br.readLine());
+		for(int i = 0; i<n; i++) {
+			cute[i] = Integer.parseInt(st.nextToken());
+			if(cute[i] == 1) lion.add(i); // 라이언의 위치를 저장한다.
 		}
-
-		for (int i = miny; i <= maxy; i++) {
-			for (int j = minx; j <= maxx; j++) {
-				System.out.print(map[i][j]);
-			}
+		
+		int start = 0; // 슬라이딩 윈도우 start 지점
+		int end = k-1; // 슬라이딩 윈도우 end 지점
+		int len = Integer.MAX_VALUE; // 연속적인 길이를 저장하는 변수
+		
+		// 라이언의 위치를 보면서 슬라이딩 윈도우 적용
+		while(end < lion.size()) {
 			System.out.println();
+			len = Math.min(lion.get(end) - lion.get(start) + 1, len);
+			start++;
+			end++;
 		}
+		
+		if(lion.size() < k) System.out.println(-1);
+		else System.out.println(len);
 	}
 }
